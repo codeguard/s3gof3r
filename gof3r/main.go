@@ -37,7 +37,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/codeguard/s3gof3r"
+	"s3gof3r"
 	"github.com/jessevdk/go-flags"
 )
 
