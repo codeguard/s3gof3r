@@ -35,20 +35,21 @@ import (
 	"io"
 	"os"
 	"runtime"
+	"strconv"
 	"time"
 
-	"s3gof3r"
 	"github.com/jessevdk/go-flags"
+	"s3gof3r"
 )
 
 const (
 	name    = "gof3r"
-	version = "0.6.2-beta"
+	version = "0.6.3-beta"
 )
 
 func main() {
-	// set the number of processors to use to the number of cpus for parallelization of concurrent transfers
-	runtime.GOMAXPROCS(runtime.NumCPU())
+	// Set GOMAXPROCS based on the environment variable GOF3R_GOMAXPROCS. Default to env.NumCPU().
+	runtime.GOMAXPROCS(getMaxProcs())
 
 	start := time.Now()
 
@@ -107,4 +108,13 @@ func checkClose(c io.Closer, err *error) {
 			*err = cerr
 		}
 	}
+}
+
+// Return GOMAXPROCS value based on the environment variable GOF3R_GOMAXPROCS. Default to runtime.NumCPU().
+func getMaxProcs() int {
+	value, err := strconv.Atoi(os.Getenv("GOF3R_GOMAXPROCS"))
+	if err != nil {
+		value = runtime.NumCPU()
+	}
+	return value
 }
