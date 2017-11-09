@@ -1,4 +1,4 @@
-// +build !race
+// +build !race,testrace
 
 package s3gof3r
 
